@@ -1,4 +1,4 @@
-package ca.ucalgary.seng300.a1;
+package ca.ucalgary.seng300.a1.test;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,9 @@ import org.lsmr.vending.Coin;
 import org.lsmr.vending.hardware.DisabledException;
 import org.lsmr.vending.hardware.PopCanRack;
 import org.lsmr.vending.hardware.VendingMachine;
+
+import ca.ucalgary.seng300.a1.VendingLogic;
+import ca.ucalgary.seng300.a1.VendingSetup;
 
 public class TestVendingLogic_Installed {
 

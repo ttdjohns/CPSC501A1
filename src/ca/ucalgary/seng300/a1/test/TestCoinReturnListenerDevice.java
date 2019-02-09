@@ -1,4 +1,4 @@
-package ca.ucalgary.seng300.a1;
+package ca.ucalgary.seng300.a1.test;
 
 import  org.junit.Assert.*;
 
@@ -12,6 +12,10 @@ import org.lsmr.vending.hardware.CapacityExceededException;
 import org.lsmr.vending.hardware.CoinReturn;
 import org.lsmr.vending.hardware.DisabledException;
 import org.lsmr.vending.hardware.PushButton;
+
+import ca.ucalgary.seng300.a1.CoinReturnListenerDevice;
+import ca.ucalgary.seng300.a1.EventLogInterface;
+import ca.ucalgary.seng300.a1.VendingLogicInterface;
 
 /*
 import ca.ucalgary.seng300.a2.CoinReturnListenerDevice;

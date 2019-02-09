@@ -1,4 +1,4 @@
-package ca.ucalgary.seng300.a1;
+package ca.ucalgary.seng300.a1.test;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,10 @@ import org.lsmr.vending.hardware.CoinReceptacle;
 import org.lsmr.vending.hardware.CoinReceptacleListener;
 import org.lsmr.vending.hardware.DisabledException;
 import org.lsmr.vending.hardware.PushButton;
+
+import ca.ucalgary.seng300.a1.CoinReceptacleListenerDevice;
+import ca.ucalgary.seng300.a1.EventLogInterface;
+import ca.ucalgary.seng300.a1.VendingLogicInterface;
 
 /*
 import ca.ucalgary.seng300.a2.CoinRackListenerDevice;
