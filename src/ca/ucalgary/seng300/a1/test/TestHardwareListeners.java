@@ -41,7 +41,7 @@ public class TestHardwareListeners {
 			temp = vm.getSelectionButton(i).numListenersRegistered();
 			assertEquals("testInitilizedListeners found " + temp + " listeners attached to selection button " + i, temp, 1);
 		}
-		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
+		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) { 
 			temp = vm.getCoinRack(i).numListenersRegistered();
 			assertEquals("testInitilizedListeners found " + temp + " listeners attached to CoinRack " + i, temp, 1);
 		}
@@ -49,8 +49,6 @@ public class TestHardwareListeners {
 			temp = vm.getPopCanRack(i).numListenersRegistered();
 			assertEquals("testInitilizedListeners found " + temp + " listeners attached to PopCanRack " + i, temp, 1);
 		}
-		temp = vm.getDeliveryChute().numListenersRegistered();
-		assertEquals("testInitilizedListeners found " + temp + " listeners attached to DeliveryChute ", temp, 1);
 		temp = vm.getCoinReceptacle().numListenersRegistered();
 		assertEquals("testInitilizedListeners found " + temp + " listeners attached to CoinReceptacle ", temp, 1);
 		temp = vm.getCoinReturn().numListenersRegistered();

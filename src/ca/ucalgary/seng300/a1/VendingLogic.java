@@ -106,24 +106,28 @@ public class VendingLogic implements VendingLogicInterface {
 		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
 			vm.getPopCanRack(i).register(new PopCanRackListenerDevice(this));
 		}
+		vm.getOutOfOrderLight().register(new IndicatorLightListenerDevice(this));
 	}
 	
+	@Override
 	public void welcomeMessageTimer() {
+		// TODO Auto-generated method stub
 		
 	}
+	
 	
 	/**
 	 * A method to push a welcome message to the display
 	 */
 	public void welcomeMessage() {
 		vm.getDisplay().display("Hi There!");
-		displayWelcome = false;
-		try {
+		displayWelcome = false; 
+		/*try {
 			futureTask.wait(5000);				// 5 sec
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	/**
@@ -525,5 +529,4 @@ public class VendingLogic implements VendingLogicInterface {
 		else
 			return circuitEnabled[index];
 	}
-	
 }
