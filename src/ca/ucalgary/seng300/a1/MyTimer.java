@@ -5,14 +5,14 @@ import org.lsmr.vending.hardware.VendingMachine;
 
 public class MyTimer extends TimerTask{
 	
-	private VendingLogic logic;	
+	private MessageDriver msgDriver;	
 	
 	/**
 	* Constructor uses the vending machine vend to get the display to interact with
 	* @param VendingMachine vend, the vendingmachine that the timer works with
 	*/
-	public MyTimer(VendingLogic logic){
-		this.logic = logic;
+	public MyTimer(MessageDriver md){
+		this.msgDriver = md;
 	}
 	
 	/**
@@ -20,11 +20,11 @@ public class MyTimer extends TimerTask{
 	*/
 	@Override
 	public void run() {
-		if (logic.displayWelcome) {
-			logic.welcomeMessage();
+		if (msgDriver.displayWelcome) {
+			msgDriver.welcomeMessage();
 		}
 		else 
-			logic.clearDisplayMessage();
+			msgDriver.clearDisplayMessage(); 
 	}
 
 }

@@ -15,35 +15,6 @@ public interface VendingLogicInterface {
 	
 	public int getCurrencyValue();
 	
-	
-	
-	/**
-	 * Method for displaying a message for 5 seconds and erase it for 10s, if credit in VM is zero.
-	 */
-	
-	public void welcomeMessageTimer();
-
-	/**
-	 * A method to push a welcome message to the display
-	 */
-	public void welcomeMessage();
-	
-	/**
-	 * A method to send an OutOfOrder message to the display
-	 */
-	public void vendOutOfOrder();
-	
-	/**
-	 * A method to push the currently accumulated credit to the display
-	 */
-	public void displayCredit();
-	
-	/**
-	 * A method to display the price of the pop at a specific index 
-	 * @param index - the selection number that corresponds to the desired pop
-	 */
-	public void displayPrice(int index);
-	
 	/**
 	 * Method to show that an invalid coin was inserted
 	 */
@@ -55,11 +26,6 @@ public interface VendingLogicInterface {
 	 * @param coin  The Coin that was inserted
 	 */
 	public void validCoinInserted(Coin coin);
-	
-	/**
-	 * Method to confirm that the product is being dispensed 
-	 */
-	public void dispensingMessage();
 	
 	/**
 	 * A method to return change to the user

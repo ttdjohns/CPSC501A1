@@ -8,13 +8,14 @@ import org.junit.Test;
 import org.lsmr.vending.*;
 import org.lsmr.vending.hardware.*;
 
+import ca.ucalgary.seng300.a1.MessageDriver;
 import ca.ucalgary.seng300.a1.VendingLogic;
 import ca.ucalgary.seng300.a1.VendingSetup;
 
 public class TestMessages {
 
 	private VendingMachine vm;
-	private VendingLogic logic;
+	private MessageDriver msgDriver;
 	
 
 	@Before
@@ -22,13 +23,13 @@ public class TestMessages {
 	{
 		VendingSetup vendset = new VendingSetup();
 		vm = vendset.getVendingMachine();
-		logic  = vendset.getVendingLogic();
+		msgDriver  = vendset.getVendingLogic().msgDriver;
 	}
 	
 	@After 
 	public void teardown() {
 		vm = null;
-		logic = null;
+		msgDriver = null;
 	}
 	
 	@Test
@@ -38,44 +39,44 @@ public class TestMessages {
 	
 	@Test
 	public void testClearMsg() {
-		logic.clearDisplayMessage();
+		msgDriver.clearDisplayMessage();
 		assertEquals(vm.getDisplay().getMessage(), "");
 	}
 	
 	@Test
 	public void testOutOfOrder() {
-		logic.vendOutOfOrder();
+		msgDriver.vendOutOfOrder();
 		assertEquals(vm.getDisplay().getMessage(), "Out Of Order");
 	}
 	
 	@Test
 	public void testDisplayCredit() {
-		logic.displayCredit();
+		msgDriver.displayCredit(0);
 		assertEquals(vm.getDisplay().getMessage(), "Current Credit: $0.0");
 	}
 	
 	@Test
 	public void testDisplayPrice() {
-		logic.displayPrice(0);
+		msgDriver.displayPrice(0, 0);
 		String message = "Price of " + vm.getPopKindName(0) + ": $" + (((double) vm.getPopKindCost(0)) / 100);
-		assertEquals(logic.prevMessage, message);
+		assertEquals(msgDriver.prevMessage, message);
 	}
 	
 	@Test
 	public void testInvalidCoinMsg() {
-		logic.invalidCoinInserted();
-		assertEquals(logic.prevMessage, "Invalid coin!");
+		msgDriver.invalidCoinInserted(0);
+		assertEquals(msgDriver.prevMessage, "Invalid coin!");
 	}
 	
 	@Test
 	public void testValidCoin() {
-		logic.validCoinInserted(new Coin(25));
+		msgDriver.validCoinInserted(25);
 		assertEquals(vm.getDisplay().getMessage(), "Current Credit: $0.25");
 	}
 	
 	@Test
 	public void testDispensingMsg() {
-		logic.dispensingMessage();
+		msgDriver.dispensingMessage();
 		assertEquals(vm.getDisplay().getMessage(), "Despensing. Enjoy!");
 	}
 }

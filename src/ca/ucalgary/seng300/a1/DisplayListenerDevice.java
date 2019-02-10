@@ -44,6 +44,6 @@ public class DisplayListenerDevice implements DisplayListener {
 	@Override
 	public void messageChange(Display display, String oldMessage, String newMessage) {
 		logic.getEventLog().writeToLog(newMessage);
-		logic.setCurrentMessage(newMessage);
+		logic.msgDriver.setCurrentMessage(newMessage);
 	}
 }

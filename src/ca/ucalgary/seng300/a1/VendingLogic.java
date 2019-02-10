@@ -10,18 +10,8 @@ public class VendingLogic implements VendingLogicInterface {
 	private int credit;					// credit is saved in terms of cents 
 	private EventLogInterface EL;				// An even logger used to track vending machine interactions
 	private Boolean[] circuitEnabled;			// an array used for custom configurations
-	private boolean debug = false;
-	public String currentMessage ="";
-	public String prevMessage ="";
-	private TimerTask futureTask;
-	public boolean displayWelcome;
-	/**
-	*This constructor uses a vending machine as a parameter, then creates and assigns listeners to it.
-	*
-	*@param VendingMachine vend is the the machine that the listeners will be registered to.
-	*@return a new instance of a VendingLogic object
-	*
-	*/
+	public MessageDriver msgDriver;
+	
 	public VendingLogic(VendingMachine vend)
 	{
 		//Set up attributes
@@ -34,11 +24,42 @@ public class VendingLogic implements VendingLogicInterface {
 		for (int i = 0; i < circuitEnabled.length; i++) {
 			circuitEnabled[i] =true; //we enable all by default
 		}
-		displayWelcome = true;
-		futureTask = new MyTimer(this);
-		this.welcomeMessage();
+		msgDriver = new MessageDriver(vm);
+		msgDriver.futureTask = new MyTimer(msgDriver);
+		msgDriver.welcomeMessage();
 		
 	}
+	
+	/**
+	 * Method to show that an invalid coin was inserted
+	 * TODO is this an acceptible way to wait for 5 seconds?
+	 */
+	public void invalidCoinInserted() {
+		msgDriver.invalidCoinInserted(credit);
+	}
+	
+	/**
+	 * Method called by the coinSlotListener to accumulate credit when valid coins are inserted.
+	 * Update the credit and update the display.  Recalculate if the exact change is possible
+	 * @param coin  The Coin that was inserted
+	 */
+	public void validCoinInserted(Coin coin) {
+		credit += coin.getValue();
+		//Light the exact change light based on attempted change output
+		if (!isExactChangePossible())
+			vm.getExactChangeLight().activate();
+		else 
+			vm.getExactChangeLight().deactivate();
+		
+		msgDriver.validCoinInserted(credit);
+	}
+	/**
+	*This constructor uses a vending machine as a parameter, then creates and assigns listeners to it.
+	*
+	*@param VendingMachine vend is the the machine that the listeners will be registered to.
+	*@return a new instance of a VendingLogic object
+	*
+	*/
 	
 	/**
 	* This method returns the event logger
@@ -56,137 +77,6 @@ public class VendingLogic implements VendingLogicInterface {
 	*/
 	public int getCurrencyValue(){
 		return credit;
-	}
-	
-	@Override
-	public void welcomeMessageTimer() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	/**
-	 * A method to push a welcome message to the display
-	 */
-	public void welcomeMessage() {
-		vm.getDisplay().display("Hi There!");
-		displayWelcome = false; 
-		/*try {
-			futureTask.wait(5000);				// 5 sec
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	}
-	
-	/**
-	 * A method to clear the message to the display
-	 */
-	public void clearDisplayMessage() {
-		vm.getDisplay().display("");
-		displayWelcome = true;
-		/*try {
-			futureTask.wait(10000);				// 10 sec
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	}
-	
-	/**
-	 * A method to send an OutOfOrder message to the display
-	 */
-	public void vendOutOfOrder() {
-		futureTask.cancel();
-		vm.getDisplay().display("Out Of Order");
-	}
-	
-	/**
-	 * A method to push the currently accumulated credit to the display
-	 */
-	public void displayCredit() {
-		futureTask.cancel();
-		vm.getDisplay().display("Current Credit: $" + (((double) credit)/100));
-	}
-	
-	/**
-	 * A method to display the price of the pop at a specific index 
-	 * @param index - the selection number that corresponds to the desired pop
-	 */
-	public void displayPrice(int index) {
-		futureTask.cancel();
-		prevMessage = "Price of " + vm.getPopKindName(index) + ": $" + (((double) vm.getPopKindCost(index)) / 100);
-		vm.getDisplay().display(prevMessage);
-		try {
-			if(!debug) Thread.sleep(5000);			// wait for 5 seconds
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		if (credit == 0)
-			welcomeMessage();
-		else
-			this.displayCredit();
-	}
-	
-	/**
-	 * Method to show that an invalid coin was inserted
-	 * TODO is this an acceptible way to wait for 5 seconds?
-	 */
-	public void invalidCoinInserted() {
-		futureTask.cancel();
-		prevMessage = "Invalid coin!";
-		vm.getDisplay().display(prevMessage);
-		try {
-			if(!debug) Thread.sleep(5000);			// wait for 5 seconds
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		if (credit == 0)
-			welcomeMessage();
-		else
-			this.displayCredit();
-	}
-	
-	/**
-	 * Method called by the coinSlotListener to accumulate credit when valid coins are inserted.
-	 * Update the credit and update the display.  Recalculate if the exact change is possible
-	 * @param coin  The Coin that was inserted
-	 */
-	public void validCoinInserted(Coin coin) {
-		credit += coin.getValue();
-		futureTask.cancel();
-		//Light the exact change light based on attempted change output
-		if (!isExactChangePossible())
-			vm.getExactChangeLight().activate();
-		else 
-			vm.getExactChangeLight().deactivate();
-		
-		this.displayCredit();
-	}
-	
-	/**
-	 * Method to confirm that the product is being dispensed 
-	 */
-	public void dispensingMessage() {
-		vm.getDisplay().display("Despensing. Enjoy!");
-	}
-	
-	/**
-	* this method returns the current contents of the display
-	* @param none
-	* @return String currentMessage
-	*/
-	public String getCurrentMessage(){
-		return currentMessage;
-	}
-	
-	/**
-	* this method sets the contents of the display, called by displayListenerDevice
-	* @param String x is the new message
-	* @return void
-	*/
-	public void setCurrentMessage(String x){
-		currentMessage = x;	
 	}
 	
 	/**
@@ -252,12 +142,6 @@ public class VendingLogic implements VendingLogicInterface {
 		for(int i = 0; i<coinTypes; i++)
 		{
 			coinKinds[i] = vm.getCoinKindForCoinRack(i);
-		}
-		if (debug)
-		{
-			for(int i = 0; i<coinKinds.length; i++) {
-			System.out.println(coinKinds[i]);	
-			}
 		}
 		return coinKinds;
 	}
@@ -349,13 +233,13 @@ public class VendingLogic implements VendingLogicInterface {
 		if ((vm.getPopKindCost(index) <= credit) && (circuitEnabled[index] == true)) {
 			try {
 				vm.getPopCanRack(index).dispensePopCan();
-				this.dispensingMessage();
+				msgDriver.dispensingMessage();
 				credit -= vm.getPopKindCost(index);		// deduct the price of the pop
 				returnChange();
 				if (credit == 0)
-					this.welcomeMessage();		// begin cycling the welcome message again
+					msgDriver.welcomeMessage();		// begin cycling the welcome message again
 				else
-					this.displayCredit();
+					msgDriver.displayCredit(credit);
 			} catch (DisabledException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -371,8 +255,8 @@ public class VendingLogic implements VendingLogicInterface {
 			vm.getDisplay().display("Option unavailable");
 		}
 		else {
-			this.displayPrice(index);
-			this.displayCredit();
+			msgDriver.displayPrice(index, credit);
+			msgDriver.displayCredit(credit);
 		}
 	}
 	
@@ -436,7 +320,7 @@ public class VendingLogic implements VendingLogicInterface {
 			vm.getOutOfOrderLight().activate();
 			
 			returnChange();
-			vendOutOfOrder();
+			msgDriver.vendOutOfOrder();
 			//vm.enableSafety(); NOTE: calling enableSafety() will result in a stack overflow exception
 		}
 	}
