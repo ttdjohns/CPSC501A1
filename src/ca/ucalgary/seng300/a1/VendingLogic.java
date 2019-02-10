@@ -11,7 +11,8 @@ public class VendingLogic implements VendingLogicInterface {
 	private EventLogInterface EL;				// An even logger used to track vending machine interactions
 	private Boolean[] circuitEnabled;			// an array used for custom configurations
 	private boolean debug = false;
-	private String currentMessage ="";
+	public String currentMessage ="";
+	public String prevMessage ="";
 	private TimerTask futureTask;
 	public boolean displayWelcome;
 	/**
@@ -84,12 +85,12 @@ public class VendingLogic implements VendingLogicInterface {
 	public void clearDisplayMessage() {
 		vm.getDisplay().display("");
 		displayWelcome = true;
-		try {
+		/*try {
 			futureTask.wait(10000);				// 10 sec
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	/**
@@ -114,7 +115,8 @@ public class VendingLogic implements VendingLogicInterface {
 	 */
 	public void displayPrice(int index) {
 		futureTask.cancel();
-		vm.getDisplay().display("Price of " + vm.getPopKindName(index) + ": $" + (((double) vm.getPopKindCost(index)) / 100));
+		prevMessage = "Price of " + vm.getPopKindName(index) + ": $" + (((double) vm.getPopKindCost(index)) / 100);
+		vm.getDisplay().display(prevMessage);
 		try {
 			if(!debug) Thread.sleep(5000);			// wait for 5 seconds
 		} catch (InterruptedException e) {
@@ -132,7 +134,8 @@ public class VendingLogic implements VendingLogicInterface {
 	 */
 	public void invalidCoinInserted() {
 		futureTask.cancel();
-		vm.getDisplay().display("Invalid coin!");
+		prevMessage = "Invalid coin!";
+		vm.getDisplay().display(prevMessage);
 		try {
 			if(!debug) Thread.sleep(5000);			// wait for 5 seconds
 		} catch (InterruptedException e) {
