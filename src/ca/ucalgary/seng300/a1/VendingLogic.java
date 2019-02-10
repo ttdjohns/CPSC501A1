@@ -89,6 +89,7 @@ public class VendingLogic implements VendingLogicInterface {
 		for (int i = 0; i < vm.getNumberOfSelectionButtons(); i++) {
 			vm.getSelectionButton(i).register(new PushButtonListenerDevice(this));
 		}
+		/*
 		try {
 		// Configuration Panel has 37 buttons.  This is a hard coded value.
 		for (int i = 0; i < 37; i++) {
@@ -100,6 +101,7 @@ public class VendingLogic implements VendingLogicInterface {
 		{
 			if (debug)System.out.println("Invalid config setup");
 		}
+		*/
 		//For each pop rack create and register a listener
 		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
 			vm.getPopCanRack(i).register(new PopCanRackListenerDevice(this));

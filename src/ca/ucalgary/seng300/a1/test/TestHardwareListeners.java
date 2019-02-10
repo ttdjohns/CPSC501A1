@@ -35,12 +35,31 @@ public class TestHardwareListeners {
 	 * Method to ensure that only 1 listener is registered to each piece of hardware on initialization
 	 */
 	@Test
-	public void testPushButtonListener() {
-		int temp = 0;
+	public void testInitilizedListeners() {
+		int temp;
 		for (int i = 0; i < vm.getNumberOfSelectionButtons(); i++) {
 			temp = vm.getSelectionButton(i).numListenersRegistered();
-			assertEquals("testPushButtonListener found " + temp + " listeners attached to selection button " + i, temp, 1);
+			assertEquals("testInitilizedListeners found " + temp + " listeners attached to selection button " + i, temp, 1);
 		}
+		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
+			temp = vm.getCoinRack(i).numListenersRegistered();
+			assertEquals("testInitilizedListeners found " + temp + " listeners attached to CoinRack " + i, temp, 1);
+		}
+		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
+			temp = vm.getPopCanRack(i).numListenersRegistered();
+			assertEquals("testInitilizedListeners found " + temp + " listeners attached to PopCanRack " + i, temp, 1);
+		}
+		temp = vm.getDeliveryChute().numListenersRegistered();
+		assertEquals("testInitilizedListeners found " + temp + " listeners attached to DeliveryChute ", temp, 1);
+		temp = vm.getCoinReceptacle().numListenersRegistered();
+		assertEquals("testInitilizedListeners found " + temp + " listeners attached to CoinReceptacle ", temp, 1);
+		temp = vm.getCoinReturn().numListenersRegistered();
+		assertEquals("testInitilizedListeners found " + temp + " listeners attached to CoinReturn ", temp, 1);
+		temp = vm.getOutOfOrderLight().numListenersRegistered();
+		assertEquals("testInitilizedListeners found " + temp + " listeners attached to OutOfOrderLight ", temp, 1);
+		temp = vm.getDisplay().numListenersRegistered();
+		assertEquals("testInitilizedListeners found " + temp + " listeners attached to Display ", temp, 1);
+		
 	}
 	
 }
