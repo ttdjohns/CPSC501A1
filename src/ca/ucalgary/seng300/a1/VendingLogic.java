@@ -27,7 +27,6 @@ public class VendingLogic implements VendingLogicInterface {
 		this.vm = vend;
 		credit = 0;
 		EL = new EventLog();
-		registerListeners();
 		
 		//Set up the custom configuration
 		circuitEnabled = new Boolean[vm.getNumberOfSelectionButtons()];
@@ -56,57 +55,6 @@ public class VendingLogic implements VendingLogicInterface {
 	*/
 	public int getCurrencyValue(){
 		return credit;
-	}
-	
-	/**
-	* This method creates and registers listeners for the vending machine.
-	* @param None
-	* @return None
-	*/
-	private void registerListeners()
-	{
-		//Register each of our listener objects here
-		vm.getCoinSlot().register(new CoinSlotListenerDevice(this));
-		vm.getDisplay().register(new DisplayListenerDevice(this));
-		
-		//For each coin rack create and register a listener
-		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
-			vm.getCoinRack(i).register(new CoinRackListenerDevice(this));
-		}
-		vm.getCoinReceptacle().register(new CoinReceptacleListenerDevice(this));
-		
-		//!!The current version of the vending machine is bugged. The coin return is never instantiated.!!
-		// This means we are unable to register to the coin return, as we get a null pointer.
-		try {
-			vm.getCoinReturn().register(new CoinReturnListenerDevice(this));}
-		catch(Exception e)
-		{
-			//This will print out the null pointer error
-			if (debug) System.out.println("Coin return not instantiated! " + e);
-		}
-		
-		//For each button create and register a listener
-		for (int i = 0; i < vm.getNumberOfSelectionButtons(); i++) {
-			vm.getSelectionButton(i).register(new PushButtonListenerDevice(this));
-		}
-		/*
-		try {
-		// Configuration Panel has 37 buttons.  This is a hard coded value.
-		for (int i = 0; i < 37; i++) {
-			vm.getConfigurationPanel().getButton(i).register(new PushButtonListenerDevice(this));
-		}
-		
-		vm.getConfigurationPanel().getEnterButton().register(new PushButtonListenerDevice(this));
-		}catch(Exception e)
-		{
-			if (debug)System.out.println("Invalid config setup");
-		}
-		*/
-		//For each pop rack create and register a listener
-		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
-			vm.getPopCanRack(i).register(new PopCanRackListenerDevice(this));
-		}
-		vm.getOutOfOrderLight().register(new IndicatorLightListenerDevice(this));
 	}
 	
 	@Override

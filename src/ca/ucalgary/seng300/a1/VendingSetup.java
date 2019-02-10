@@ -3,6 +3,7 @@ package ca.ucalgary.seng300.a1;
 import java.util.ArrayList;
 
 import org.lsmr.vending.hardware.VendingMachine;
+import ca.ucalgary.seng300.a1.*;
 
 public class VendingSetup {
 //THE VENDING MACHINE
@@ -16,6 +17,7 @@ public class VendingSetup {
 	private int receptacleCapacity;
 	private int deliveryChuteCapacity;
 	private int coinReturnCapacity;
+	private VendingLogic vendLogic;
 	
 	
 	//pop names, pop costs, to configure vending machine
@@ -63,8 +65,56 @@ public class VendingSetup {
 		myVM.configure(popNames, popCosts);
 		//load PopCans into the PopCanRacks up to their maximum capacity for the rack
 		myVM.loadPopCans(capacEachRack);
+		
+		vendLogic = new VendingLogic(myVM);
+		
+		registerListeners(myVM);
 	}
 	
+	/**
+	* This method creates and registers listeners for the vending machine.
+	* @param None
+	* @return None
+	*/
+	private void registerListeners(VendingMachine vm)
+	{
+		//Register each of our listener objects here
+		vm.getCoinSlot().register(new CoinSlotListenerDevice(vendLogic));
+		vm.getDisplay().register(new DisplayListenerDevice(vendLogic));
+		
+		//For each coin rack create and register a listener
+		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
+			vm.getCoinRack(i).register(new CoinRackListenerDevice(vendLogic));
+		}
+		vm.getCoinReceptacle().register(new CoinReceptacleListenerDevice(vendLogic));
+		
+		//!!The current version of the vending machine is bugged. The coin return is never instantiated.!!
+		// This means we are unable to register to the coin return, as we get a null pointer.
+		vm.getCoinReturn().register(new CoinReturnListenerDevice(vendLogic));
+		
+		//For each button create and register a listener
+		for (int i = 0; i < vm.getNumberOfSelectionButtons(); i++) {
+			vm.getSelectionButton(i).register(new PushButtonListenerDevice(vendLogic));
+		}
+		/*
+		try {
+		// Configuration Panel has 37 buttons.  This is a hard coded value.
+		for (int i = 0; i < 37; i++) {
+			vm.getConfigurationPanel().getButton(i).register(new PushButtonListenerDevice(this));
+		}
+		
+		vm.getConfigurationPanel().getEnterButton().register(new PushButtonListenerDevice(this));
+		}catch(Exception e)
+		{
+			if (debug)System.out.println("Invalid config setup");
+		}
+		*/
+		//For each pop rack create and register a listener
+		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
+			vm.getPopCanRack(i).register(new PopCanRackListenerDevice(vendLogic));
+		}
+		vm.getOutOfOrderLight().register(new IndicatorLightListenerDevice(vendLogic));
+	}
 	
 	/**
 	* getter for the setup vending machine
@@ -73,6 +123,10 @@ public class VendingSetup {
 	public VendingMachine getVendingMachine() {
 		return myVM;
 	}		
+	
+	public VendingLogic getVendingLogic() {
+		return vendLogic;
+	}
 	
 	/**
 	* getter for the valid coin array

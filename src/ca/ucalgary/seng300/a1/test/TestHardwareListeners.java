@@ -22,7 +22,7 @@ public class TestHardwareListeners {
 	{
 		VendingSetup vendset = new VendingSetup();
 		vm = vendset.getVendingMachine();
-		logic  = new VendingLogic(vm);
+		logic  = vendset.getVendingLogic();
 	}
 	
 	@After 
