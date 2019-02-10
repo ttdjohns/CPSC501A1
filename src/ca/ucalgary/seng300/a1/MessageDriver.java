@@ -21,7 +21,7 @@ public class MessageDriver {
 	 * A method to push a welcome message to the display
 	 */
 	public void welcomeMessage() {
-		vm.getDisplay().display("Hi There!");
+		updateDisplay("Hi There!");
 		displayWelcome = false; 
 		/*try {
 			futureTask.wait(5000);				// 5 sec
@@ -35,7 +35,7 @@ public class MessageDriver {
 	 * A method to clear the message to the display
 	 */
 	public void clearDisplayMessage() {
-		vm.getDisplay().display("");
+		updateDisplay("");
 		displayWelcome = true;
 		/*try {
 			futureTask.wait(10000);				// 10 sec
@@ -50,7 +50,7 @@ public class MessageDriver {
 	 */
 	public void vendOutOfOrder() {
 		futureTask.cancel();
-		vm.getDisplay().display("Out Of Order");
+		updateDisplay("Out Of Order");
 	}
 	
 	/**
@@ -59,8 +59,7 @@ public class MessageDriver {
 	 */
 	public void invalidCoinInserted(int currentCredit) {
 		futureTask.cancel();
-		prevMessage = "Invalid coin!";
-		vm.getDisplay().display(prevMessage);
+		updateDisplay("Invalid coin!");
 		try {
 			if(!debug) Thread.sleep(5000);			// wait for 5 seconds
 		} catch (InterruptedException e) {
@@ -88,7 +87,7 @@ public class MessageDriver {
 	 */
 	public void displayCredit(int credit) {
 		futureTask.cancel();
-		vm.getDisplay().display("Current Credit: $" + (((double) credit)/100));
+		updateDisplay("Current Credit: $" + (((double) credit)/100));
 	}
 	
 	/**
@@ -97,8 +96,7 @@ public class MessageDriver {
 	 */
 	public void displayPrice(int index, int currentCredit) {
 		futureTask.cancel();
-		prevMessage = "Price of " + vm.getPopKindName(index) + ": $" + (((double) vm.getPopKindCost(index)) / 100);
-		vm.getDisplay().display(prevMessage);
+		updateDisplay("Price of " + vm.getPopKindName(index) + ": $" + (((double) vm.getPopKindCost(index)) / 100));
 		try {
 			if(!debug) Thread.sleep(5000);			// wait for 5 seconds
 		} catch (InterruptedException e) {
@@ -115,7 +113,7 @@ public class MessageDriver {
 	 * Method to confirm that the product is being dispensed 
 	 */
 	public void dispensingMessage() {
-		vm.getDisplay().display("Despensing. Enjoy!");
+		updateDisplay("Despensing. Enjoy!");
 	}
 	
 	/**
@@ -134,5 +132,11 @@ public class MessageDriver {
 	*/
 	public void setCurrentMessage(String x){
 		currentMessage = x;	
+	}
+	
+	private void updateDisplay(String newMsg) {
+		prevMessage = currentMessage;
+		currentMessage = newMsg;
+		vm.getDisplay().display(newMsg);
 	}
 }
