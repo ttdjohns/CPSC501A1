@@ -268,36 +268,56 @@ public class VendingLogic implements VendingLogicInterface {
 	 * @return The index of the hardware according to the vending machine. -1 means error could not find
 	 */
 	public int findHardwareIndex(AbstractHardware<? extends AbstractHardwareListener> hardware) {
+		int ret = -1;
 		if (hardware instanceof PopCanRack) {
-			for (int index = 0; index < vm.getNumberOfPopCanRacks(); index++) {
-				if (vm.getPopCanRack(index) == hardware) {
-					return index;
-				}
-			}
+			
 		}
 		
 		else if (hardware instanceof PushButton) {
-			for (int index = 0; index < vm.getNumberOfSelectionButtons(); index++) {
-				if (vm.getSelectionButton(index) == hardware) {
-					return index;
-				}
+			ret = findPushButtonIndex((PushButton) hardware);
+		}
+		
+		else if (hardware instanceof CoinRack) {
+			ret = findCoinRackIndex((CoinRack) hardware);
+		}
+		
+		return ret; // -1 will be the error index
+	}
+	
+	public int findCoinRackIndex(CoinRack rack) {
+		int ret = -1;
+		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
+			if (rack == vm.getCoinRack(i)) {
+				ret = i;
 			}
-			
-			for (int index = 0; index < 37; index++) {
-				if (vm.getConfigurationPanel().getButton(index) == hardware) {
-					return index;
-				}
+		}
+		return ret;
+	}
+	
+	public int findPushButtonIndex(PushButton button) {
+		int ret = -1;
+		for (int index = 0; index < vm.getNumberOfSelectionButtons(); index++) {
+			if (vm.getSelectionButton(index) == button) {
+				ret = index;
 			}
 		}
 		
-		else if (hardware instanceof CoinRack)
-			for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
-				if (hardware == vm.getCoinRack(i)) {
-					return i;
-				}
+		for (int index = 0; index < 37; index++) {
+			if (vm.getConfigurationPanel().getButton(index) == button) {
+				ret = index;
 			}
-		
-		return -1; // -1 will be the error index
+		}
+		return ret;
+	}
+	
+	public int findPopCanRackIndex(PopCanRack rack) {
+		int ret = -1;
+		for (int index = 0; index < vm.getNumberOfPopCanRacks(); index++) {
+			if (vm.getPopCanRack(index) == rack) {
+				ret = index;
+			}
+		}
+		return ret;
 	}
 	
 	/**
