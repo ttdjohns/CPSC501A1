@@ -41,6 +41,12 @@ public class TestHardwareListeners {
 			temp = vm.getSelectionButton(i).numListenersRegistered();
 			assertEquals("testInitilizedListeners found " + temp + " listeners attached to selection button " + i, temp, 1);
 		}
+		for (int i = 0; i < 37; i++) {
+			temp = vm.getConfigurationPanel().getButton(i).numListenersRegistered();
+			assertEquals("testInitilizedListeners found " + temp + " listeners attached to config pannel button " + i, temp, 1);
+		}
+		temp = vm.getConfigurationPanel().getEnterButton().numListenersRegistered();
+		assertEquals("testInitilizedListeners found " + temp + " listeners attached to config pannel enter button ", temp, 1);
 		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) { 
 			temp = vm.getCoinRack(i).numListenersRegistered();
 			assertEquals("testInitilizedListeners found " + temp + " listeners attached to CoinRack " + i, temp, 1);
