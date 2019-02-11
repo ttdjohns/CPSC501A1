@@ -8,7 +8,7 @@ import org.lsmr.vending.hardware.CoinReturnListener;
 
 public class CoinReturnListenerDevice implements CoinReturnListener {
 
-	private VendingLogicInterface logic;
+	private VendingLogic logic;
 	//TODO Make private and create get methods
 	public int enabledCount = 0;
 	public int disabledCount = 0;
@@ -22,7 +22,7 @@ public class CoinReturnListenerDevice implements CoinReturnListener {
 	* @param VendingLogicInterface Logic that the listener interacts with
 	* 
 	*/
-	public CoinReturnListenerDevice(VendingLogicInterface logic)
+	public CoinReturnListenerDevice(VendingLogic logic)
 	{
 		this.logic = logic;
 	}

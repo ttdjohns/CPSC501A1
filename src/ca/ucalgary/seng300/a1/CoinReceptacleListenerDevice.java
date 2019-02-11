@@ -10,7 +10,7 @@ import org.lsmr.vending.hardware.CoinReceptacleListener;
 
 public class CoinReceptacleListenerDevice implements CoinReceptacleListener{
 
-	private VendingLogicInterface logic;
+	private VendingLogic logic;
 	//TODO Why are these public? Should these not be private?
 	public int enabledCount = 0;
 	public int disabledCount = 0;
@@ -24,7 +24,7 @@ public class CoinReceptacleListenerDevice implements CoinReceptacleListener{
 	* @param VendingLogicInterface Logic that the listener interacts with
 	* 
 	*/
-	public CoinReceptacleListenerDevice(VendingLogicInterface logic)
+	public CoinReceptacleListenerDevice(VendingLogic logic)
 	{
 		this.logic = logic;
 	}

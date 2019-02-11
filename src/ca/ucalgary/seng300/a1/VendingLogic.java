@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class VendingLogic implements VendingLogicInterface {
+public class VendingLogic {
 	private VendingMachine vm;				// The vending machine that this logic program is installed on
 	private int credit;					// credit is saved in terms of cents 
 	private EventLogInterface EL;				// An even logger used to track vending machine interactions

@@ -7,7 +7,7 @@ import org.lsmr.vending.hardware.*;
 
 public class CoinSlotListenerDevice implements CoinSlotListener {
 
-	private VendingLogicInterface logic;
+	private VendingLogic logic;
 	
 	//TODO make attributes private and create getters
 	public int enabledCount = 0;
@@ -23,7 +23,7 @@ public class CoinSlotListenerDevice implements CoinSlotListener {
 	* @param VendingLogicInterface Logic that the listener interacts with
 	* 
 	*/
-	public CoinSlotListenerDevice(VendingLogicInterface logic)
+	public CoinSlotListenerDevice(VendingLogic logic)
 	{
 		this.logic = logic;
 		

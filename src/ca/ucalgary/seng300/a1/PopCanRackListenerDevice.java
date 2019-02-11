@@ -7,14 +7,14 @@ import org.lsmr.vending.hardware.PopCanRackListener;
 
 public class PopCanRackListenerDevice implements PopCanRackListener {
 
-	private VendingLogicInterface logic;
+	private VendingLogic logic;
 	
 	/**
 	* Constructor creates the listener and assigns a logic to it
 	* @param VendingLogicInterface Logic that the listener interacts with
 	* 
 	*/
-	public PopCanRackListenerDevice(VendingLogicInterface vl) {
+	public PopCanRackListenerDevice(VendingLogic vl) {
 		logic = vl;
 	}
 	

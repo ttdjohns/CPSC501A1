@@ -10,14 +10,14 @@ public class IndicatorLightListenerDevice implements IndicatorLightListener{
 	public boolean lightActivated = false;
 	public boolean lightDeactivated = false;
 	
-	private VendingLogicInterface logic;
+	private VendingLogic logic;
 	
 	/**
 	* Constructor creates the listener and assigns a logic to it
 	* @param VendingLogicInterface Logic that the listener interacts with
 	* 
 	*/
-	public IndicatorLightListenerDevice(VendingLogicInterface logic)
+	public IndicatorLightListenerDevice(VendingLogic logic)
 	{
 		this.logic = logic;
 	}
