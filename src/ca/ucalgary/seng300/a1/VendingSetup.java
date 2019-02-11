@@ -96,19 +96,14 @@ public class VendingSetup {
 		for (int i = 0; i < vm.getNumberOfSelectionButtons(); i++) {
 			vm.getSelectionButton(i).register(new PushButtonListenerDevice(vendLogic));
 		}
-		/*
-		try {
+		
 		// Configuration Panel has 37 buttons.  This is a hard coded value.
 		for (int i = 0; i < 37; i++) {
-			vm.getConfigurationPanel().getButton(i).register(new PushButtonListenerDevice(this));
+			vm.getConfigurationPanel().getButton(i).register(new PushButtonListenerDevice(vendLogic));
 		}
+		vm.getConfigurationPanel().getEnterButton().register(new PushButtonListenerDevice(vendLogic));
 		
-		vm.getConfigurationPanel().getEnterButton().register(new PushButtonListenerDevice(this));
-		}catch(Exception e)
-		{
-			if (debug)System.out.println("Invalid config setup");
-		}
-		*/
+		
 		//For each pop rack create and register a listener
 		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
 			vm.getPopCanRack(i).register(new PopCanRackListenerDevice(vendLogic));
