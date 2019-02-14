@@ -97,12 +97,12 @@ public class VendingSetup {
 			vm.getSelectionButton(i).register(new PushButtonListenerDevice(vendLogic));
 		}
 		
-		// Configuration Panel has 37 buttons.  This is a hard coded value.
+		/*// Configuration Panel has 37 buttons.  This is a hard coded value.
 		for (int i = 0; i < 37; i++) {
 			vm.getConfigurationPanel().getButton(i).register(new PushButtonListenerDevice(vendLogic));
 		}
 		vm.getConfigurationPanel().getEnterButton().register(new PushButtonListenerDevice(vendLogic));
-		
+		*/
 		
 		//For each pop rack create and register a listener
 		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
