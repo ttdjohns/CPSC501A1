@@ -31,23 +31,36 @@ public class TestFindHardwareIndex {
 	}
 	
 	@Test
-	public void testFindHardwareOnCoinRacks() {
+	public void testFindHardwareIndex() {
 		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
 			assertEquals("failed to identify coin rack " + i, logic.findHardwareIndex(vm.getCoinRack(i)), i);
+		}
+		for (int i = 0; i < vm.getNumberOfSelectionButtons(); i++) {
+			assertEquals("failed to identify selection button " + i, logic.findHardwareIndex(vm.getSelectionButton(i)), i);
+		}
+		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
+			assertEquals("failed to identify pop can rack " + i, logic.findPopCanRackIndex(vm.getPopCanRack(i)), i);
+		}
+	}
+	
+	@Test
+	public void testFindHardwareOnCoinRacks() {
+		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
+			assertEquals("failed to identify coin rack " + i, logic.findCoinRackIndex(vm.getCoinRack(i)), i);
 		}
 	}
 	
 	@Test
 	public void testFindHardwareOnSelectionButtons() {
 		for (int i = 0; i < vm.getNumberOfSelectionButtons(); i++) {
-			assertEquals("failed to identify selection button " + i, logic.findHardwareIndex(vm.getSelectionButton(i)), i);
+			assertEquals("failed to identify selection button " + i, logic.findPushButtonIndex(vm.getSelectionButton(i)), i);
 		}
 	}
 	
 	@Test
 	public void testFindHardwareOnPopCanRack() {
-		for (int i = 0; i < vm.getNumberOfCoinRacks(); i++) {
-			assertEquals("failed to identify pop can rack " + i, logic.findHardwareIndex(vm.getCoinRack(i)), i);
+		for (int i = 0; i < vm.getNumberOfPopCanRacks(); i++) {
+			assertEquals("failed to identify pop can rack " + i, logic.findPopCanRackIndex(vm.getPopCanRack(i)), i);
 		}
 	}
 	
